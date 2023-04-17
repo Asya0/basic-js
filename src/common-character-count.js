@@ -1,21 +1,48 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
 /**
- * Given two strings, find the number of common characters between them.
+ * Given an array of domains, return the object with the appearances of the DNS.
  *
- * @param {String} s1
- * @param {String} s2
- * @return {Number}
+ * @param {Array} domains
+ * @return {Object}
  *
  * @example
- * For s1 = "aabcc" and s2 = "adcaa", the output should be 3
- * Strings have 3 common characters - 2 "a"s and 1 "c".
+ * domains = [
+ *  'code.yandex.ru',
+ *  'music.yandex.ru',
+ *  'yandex.ru'
+ * ]
+ *
+ * The result should be the following:
+ * {
+ *   '.ru': 3,
+ *   '.ru.yandex': 3,
+ *   '.ru.yandex.code': 1,
+ *   '.ru.yandex.music': 1,
+ * }
+ *
  */
-function getCommonCharacterCount(/* s1, s2 */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function getDNSStats(domains) {
+  const res = {};
+
+  for (let i = 0; i < domains.length; i++) {
+    const wordOfArr = domains[i].split('.');
+    // console.log(wordOfArr)
+    let str = '';
+
+    for (let j = wordOfArr.length - 1; j >= 0; j--) {
+      str += `.${wordOfArr[j]}`;
+      if (!res[str]) {
+        res[str] = 1;
+      } else {
+        res[str]++;
+      }
+    }
+  }
+  return res;
 }
 
+
 module.exports = {
-  getCommonCharacterCount
+  getDNSStats
 };
